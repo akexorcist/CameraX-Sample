@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ImageCaptureActivity">
+
+    <View
+        android:id="@+id/viewSafeArea"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/dark_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/viewZoomBackground"
+        android:layout_width="@dimen/zoom_level_width"
+        android:layout_height="@dimen/zoom_level_height"
+        android:layout_marginTop="@dimen/margin"
+        android:background="@drawable/shape_zoom_level_background"
+        app:layout_constraintEnd_toEndOf="@id/viewSafeArea"
+        app:layout_constraintStart_toStartOf="@id/viewSafeArea"
+        app:layout_constraintTop_toTopOf="@id/viewSafeArea" />
+
+    <TextView
+        android:id="@+id/textViewZoomLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin"
+        android:ems="5"
+        android:gravity="end"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintBottom_toBottomOf="@id/viewZoomBackground"
+        app:layout_constraintEnd_toStartOf="@id/seekBarZoom"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/viewZoomBackground"
+        app:layout_constraintTop_toTopOf="@id/viewZoomBackground"
+        tools:text="Zoom 10.0x" />
+
+    <SeekBar
+        android:id="@+id/seekBarZoom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        app:layout_constraintBottom_toBottomOf="@id/textViewZoomLevel"
+        app:layout_constraintEnd_toEndOf="@id/viewZoomBackground"
+        app:layout_constraintStart_toEndOf="@id/textViewZoomLevel"
+        app:layout_constraintTop_toTopOf="@id/textViewZoomLevel"
+        tools:max="100"
+        tools:progress="0" />
+
+    <Button
+        android:id="@+id/buttonCaptureImage"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:drawableTop="@drawable/ic_camera_action"
+        android:text="@string/capture_image"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@id/viewSafeArea"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/viewSafeArea"
+        app:layout_constraintStart_toStartOf="@id/viewSafeArea" />
+
+    <Button
+        android:id="@+id/buttonToggleCamera"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:drawableTop="@drawable/ic_switch_camera"
+        android:text="@string/switch_camera"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@id/viewSafeArea"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="@id/viewSafeArea" />
+
+    <Button
+        android:id="@+id/buttonToggleFlash"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:drawableTop="@drawable/ic_flash_off"
+        android:text="@string/flash_off"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toBottomOf="@id/viewSafeArea"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="@id/viewSafeArea" />
+
+    <Button
+        android:id="@+id/buttonToggleTorch"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="@dimen/button_size"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:drawableTop="@drawable/ic_torch_off"
+        android:text="@string/torch_off"
+        android:textAllCaps="false"
+        app:layout_constraintBottom_toTopOf="@id/buttonToggleFlash"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="@id/viewSafeArea" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

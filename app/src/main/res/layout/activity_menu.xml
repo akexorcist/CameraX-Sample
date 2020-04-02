@@ -26,4 +26,11 @@
         android:layout_height="wrap_content"
         android:text="@string/menu_image_capture" />
 
+    <Button
+        android:id="@+id/buttonAdvanceImageCapture"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="@dimen/menu_button_width"
+        android:layout_height="wrap_content"
+        android:text="@string/menu_advance_image_capture" />
+
 </LinearLayout>

@@ -42,7 +42,6 @@ class CameraViewActivity : AppCompatActivity() {
         seekBarZoom.progress = (cameraView.zoomRatio * 10).toInt()
 
         cameraView.bindToLifecycle(this)
-
         Log.e("Check", "Max Zoom : ${cameraView.maxZoomRatio}")
         Log.e("Check", "Min Zoom : ${cameraView.minZoomRatio}")
         Log.e("Check", "Max : ${seekBarZoom.max}")

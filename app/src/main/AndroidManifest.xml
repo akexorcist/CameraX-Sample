@@ -26,6 +26,9 @@
         <activity android:name=".ui.LuminosityAnalyzerActivity" />
         <activity android:name=".ui.ImageCaptureActivity" />
         <activity android:name=".ui.VideoCaptureActivity" />
+        <activity
+            android:name=".ui.AdvanceImageCaptureActivity"
+            android:theme="@style/NoActionBarTheme" />
     </application>
 
 </manifest>

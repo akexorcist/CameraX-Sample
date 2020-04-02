@@ -22,5 +22,9 @@ class MenuActivity : AppCompatActivity() {
         buttonImageCapture.setOnClickListener {
             startActivity(Intent(this, ImageCaptureActivity::class.java))
         }
+
+        buttonAdvanceImageCapture.setOnClickListener {
+            startActivity(Intent(this, AdvanceImageCaptureActivity::class.java))
+        }
     }
 }

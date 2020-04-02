@@ -3,6 +3,7 @@
     <string name="menu_camera_view">Built-in Camera View</string>
     <string name="menu_image_analyzer">Image Analyzer</string>
     <string name="menu_image_capture">Image Capture</string>
+    <string name="menu_advance_image_capture">Advance Image Capture</string>
     <string name="image_capture_success">Captured</string>
     <string name="image_capture_error">Image capture error with %1$s (%2$d)</string>
     <string name="video_record_success">Record</string>
@@ -11,7 +12,13 @@
     <string name="start_record_video">Record</string>
     <string name="stop_record_video">Stop</string>
     <string name="switch_camera">Switch</string>
+    <string name="flash_on">On</string>
+    <string name="flash_off">Off</string>
+    <string name="flash_auto">Auto</string>
+    <string name="torch_on">On</string>
+    <string name="torch_off">Off</string>
     <string name="zoom">Zoom</string>
     <string name="luma_value">Luma : %1$.2f</string>
+    <string name="zoom_ratio">Zoom %1$.1fx</string>
     <string name="permission_denied">Please grant all camera-related permission</string>
 </resources>
