@@ -1,7 +1,7 @@
 # Android-CameraX
 Sample code for CameraX in Android Jetpack Library
 
-This project including
+### What's in this project?
 
 • Built-in CameraView implementation
 
