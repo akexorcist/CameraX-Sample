@@ -12,7 +12,6 @@ import com.akexorcist.example.camerax.helper.ShortenMultiplePermissionListener
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import kotlinx.android.synthetic.main.activity_image_capture.*
-import kotlinx.android.synthetic.main.activity_luminosity_analyzer.previewView
 import java.io.File
 
 class ImageCaptureActivity : AppCompatActivity() {
