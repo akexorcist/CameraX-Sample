@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.activity_luminosity_analyzer.*
 import java.util.concurrent.Executors
 
 class LuminosityAnalyzerActivity : AppCompatActivity() {
-
     private var camera: Camera? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +47,7 @@ class LuminosityAnalyzerActivity : AppCompatActivity() {
             .build()
 
         val imageAnalysis = ImageAnalysis.Builder()
-            .setTargetResolution(Size(1280, 720))
+            .setTargetResolution(Size(600, 600))
             .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
             .build()
 
