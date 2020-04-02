@@ -162,7 +162,7 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
         imageCapture?.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this), imageSavedCallback)
     }
 
-    private fun performAutoFocus(x: Float, y: Float) {
+    private fun performFocus(x: Float, y: Float) {
         camera?.let { camera ->
             val pointFactory: MeteringPointFactory = previewView.createMeteringPointFactory(createCameraSelector())
             val afPointWidth = 1.0f / 6.0f
@@ -207,7 +207,7 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
                 actionDownTimestamp = System.currentTimeMillis()
             } else if (event.action == MotionEvent.ACTION_UP && isInLongPressDuration()) {
                 view.performClick()
-                performAutoFocus(event.x, event.y)
+                performFocus(event.x, event.y)
             }
             return true
         }
