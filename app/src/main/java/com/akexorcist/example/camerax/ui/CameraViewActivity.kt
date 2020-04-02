@@ -29,7 +29,8 @@ class CameraViewActivity : AppCompatActivity() {
     private fun requestRuntimePermission() {
         Dexter.withActivity(this)
             .withPermissions(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
-            .withListener(multiplePermissionsListener).check()
+            .withListener(multiplePermissionsListener)
+            .check()
     }
 
     private fun setupView() {
@@ -77,12 +78,6 @@ class CameraViewActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun startVideoRecording() {
-        buttonToggleCamera.isEnabled = false
-        buttonCaptureImage.isEnabled = false
-        buttonRecordVideo.setText(R.string.stop_record_video)
-    }
-
     private val multiplePermissionsListener = object : ShortenMultiplePermissionListener() {
         override fun onPermissionsChecked(report: MultiplePermissionsReport) {
             if (report.areAllPermissionsGranted()) {
@@ -117,6 +112,12 @@ class CameraViewActivity : AppCompatActivity() {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
             cameraView.zoomRatio = progress / 10f
         }
+    }
+
+    private fun startVideoRecording() {
+        buttonToggleCamera.isEnabled = false
+        buttonCaptureImage.isEnabled = false
+        buttonRecordVideo.setText(R.string.stop_record_video)
     }
 
     private fun onStopVideoRecording() {

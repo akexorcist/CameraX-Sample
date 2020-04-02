@@ -31,7 +31,8 @@ class LuminosityAnalyzerActivity : AppCompatActivity() {
     private fun requestRuntimePermission() {
         Dexter.withActivity(this)
             .withPermissions(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
-            .withListener(multiplePermissionsListener).check()
+            .withListener(multiplePermissionsListener)
+            .check()
     }
 
     private fun setupCameraProvider() {

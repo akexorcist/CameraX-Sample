@@ -29,7 +29,8 @@ class ImageCaptureActivity : AppCompatActivity() {
     private fun requestRuntimePermission() {
         Dexter.withActivity(this)
             .withPermissions(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
-            .withListener(multiplePermissionsListener).check()
+            .withListener(multiplePermissionsListener)
+            .check()
 
     }
 
@@ -61,15 +62,17 @@ class ImageCaptureActivity : AppCompatActivity() {
     private fun onCaptureImage() {
         val file = File(filesDir.absoluteFile, "temp.jpg")
         val outputFileOptions: ImageCapture.OutputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()
-        imageCapture?.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this), object :ImageCapture.OnImageSavedCallback {
-            override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-                showResultMessage(getString(R.string.image_capture_success))
-            }
+        imageCapture?.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this), imageSavedCallback)
+    }
 
-            override fun onError(exception: ImageCaptureException) {
-                showResultMessage(getString(R.string.image_capture_error, exception.message, exception.imageCaptureError))
-            }
-        })
+    private val imageSavedCallback = object : ImageCapture.OnImageSavedCallback {
+        override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+            showResultMessage(getString(R.string.image_capture_success))
+        }
+
+        override fun onError(exception: ImageCaptureException) {
+            showResultMessage(getString(R.string.image_capture_error, exception.message, exception.imageCaptureError))
+        }
     }
 
     private val multiplePermissionsListener = object : ShortenMultiplePermissionListener() {
