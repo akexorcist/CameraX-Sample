@@ -6,4 +6,5 @@
     <dimen name="text_size">18sp</dimen>
     <dimen name="seek_bar_width">200dp</dimen>
     <dimen name="luma_info_width">150dp</dimen>
+    <dimen name="menu_button_width">200dp</dimen>
 </resources>

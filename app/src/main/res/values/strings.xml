@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">CameraX</string>
-    <string name="menu_image_analyzer">Image Analyzer</string>
     <string name="menu_camera_view">Built-in Camera View</string>
+    <string name="menu_image_analyzer">Image Analyzer</string>
+    <string name="menu_image_capture">Image Capture</string>
     <string name="image_capture_success">Captured</string>
     <string name="image_capture_error">Image capture error with %1$s (%2$d)</string>
     <string name="video_record_success">Record</string>

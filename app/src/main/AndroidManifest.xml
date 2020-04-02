@@ -24,6 +24,7 @@
         </activity>
         <activity android:name=".ui.CameraViewActivity" />
         <activity android:name=".ui.LuminosityAnalyzerActivity" />
+        <activity android:name=".ui.ImageCaptureActivity" />
     </application>
 
 </manifest>
