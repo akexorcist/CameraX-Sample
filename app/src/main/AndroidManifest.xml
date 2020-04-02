@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.CameraViewActivity" />
-        <activity android:name=".ui.CustomCameraActivity" />
+        <activity android:name=".ui.LuminosityAnalyzerActivity" />
     </application>
 
 </manifest>

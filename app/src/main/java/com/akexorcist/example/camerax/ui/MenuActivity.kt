@@ -16,7 +16,7 @@ class MenuActivity : AppCompatActivity() {
         }
 
         buttonCustomCamera.setOnClickListener {
-            startActivity(Intent(this, CustomCameraActivity::class.java))
+            startActivity(Intent(this, LuminosityAnalyzerActivity::class.java))
         }
     }
 }

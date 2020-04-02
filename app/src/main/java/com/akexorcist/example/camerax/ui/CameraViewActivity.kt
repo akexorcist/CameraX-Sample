@@ -2,6 +2,8 @@ package com.akexorcist.example.camerax.ui
 
 import android.Manifest
 import android.os.Bundle
+import android.util.Log
+import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageCapture
@@ -10,6 +12,7 @@ import androidx.camera.core.VideoCapture
 import androidx.core.content.ContextCompat
 import com.akexorcist.example.camerax.R
 import com.akexorcist.example.camerax.helper.ShortenMultiplePermissionListener
+import com.akexorcist.example.camerax.helper.ShortenSeekBarChangeListener
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import kotlinx.android.synthetic.main.activity_camera_view.*
@@ -33,7 +36,16 @@ class CameraViewActivity : AppCompatActivity() {
         buttonToggleCamera.setOnClickListener { onToggleCameraClick() }
         buttonCaptureImage.setOnClickListener { onCaptureImageClick() }
         buttonRecordVideo.setOnClickListener { onRecordVideoClick() }
+        seekBarZoom.setOnSeekBarChangeListener(seekBarChangeListener)
+        seekBarZoom.max = ((cameraView.maxZoomRatio - cameraView.minZoomRatio) * 10).toInt()
+        seekBarZoom.progress = (cameraView.zoomRatio * 10).toInt()
+
         cameraView.bindToLifecycle(this)
+
+        Log.e("Check", "Max Zoom : ${cameraView.maxZoomRatio}")
+        Log.e("Check", "Min Zoom : ${cameraView.minZoomRatio}")
+        Log.e("Check", "Max : ${seekBarZoom.max}")
+        Log.e("Check", "Progress : ${seekBarZoom.progress}")
     }
 
     private fun onToggleCameraClick() {
@@ -98,6 +110,12 @@ class CameraViewActivity : AppCompatActivity() {
 
         override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
             showResultMessage(getString(R.string.video_record_error, message, videoCaptureError))
+        }
+    }
+
+    private val seekBarChangeListener = object : ShortenSeekBarChangeListener() {
+        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            cameraView.zoomRatio = progress / 10f
         }
     }
 

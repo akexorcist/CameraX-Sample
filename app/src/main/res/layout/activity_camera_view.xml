@@ -60,4 +60,27 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewZoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin"
+        android:layout_marginEnd="@dimen/margin"
+        android:text="@string/zoom"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintBottom_toTopOf="@id/buttonCaptureImage"
+        app:layout_constraintEnd_toStartOf="@id/seekBarZoom"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seekBarZoom"
+        android:layout_width="@dimen/seek_bar_width"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/textViewZoom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textViewZoom"
+        app:layout_constraintTop_toTopOf="@id/textViewZoom" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

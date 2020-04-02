@@ -4,15 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.CustomCameraActivity">
+    tools:context=".ui.LuminosityAnalyzerActivity">
 
-    <TextureView
-        android:id="@+id/textureView"
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewLuma"
+        android:layout_width="@dimen/luma_info_width"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin"
+        android:background="@color/black_shadow"
+        android:padding="@dimen/padding"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
