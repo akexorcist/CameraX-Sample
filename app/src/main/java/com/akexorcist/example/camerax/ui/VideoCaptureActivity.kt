@@ -32,7 +32,7 @@ class VideoCaptureActivity : AppCompatActivity() {
     }
 
     private fun requestRuntimePermission() {
-        Dexter.withActivity(this)
+        Dexter.withContext(this)
             .withPermissions(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
             .withListener(multiplePermissionsListener)
             .check()
@@ -40,7 +40,7 @@ class VideoCaptureActivity : AppCompatActivity() {
 
     private fun setupCameraProvider() {
         ProcessCameraProvider.getInstance(this).also { provider ->
-            provider.addListener(Runnable {
+            provider.addListener({
                 bindPreview(provider.get())
             }, ContextCompat.getMainExecutor(this))
         }
@@ -59,13 +59,13 @@ class VideoCaptureActivity : AppCompatActivity() {
             .build()
 
         camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, videoCapture)
-        camera?.let { camera ->
-            preview.setSurfaceProvider(previewView.createSurfaceProvider(camera.cameraInfo))
+        camera?.let {
+            preview.setSurfaceProvider(previewView.surfaceProvider)
         }
     }
 
     private fun onCaptureImage() {
-        val file = File(filesDir.absoluteFile, "temp.mp4")
+//        val file = File(filesDir.absoluteFile, "temp.mp4")
         // TODO Wait until they make it public for implementation
 //        videoCapture?.startRecording(file, ContextCompat.getMainExecutor(this), videoSavedCallback)
     }
@@ -80,15 +80,16 @@ class VideoCaptureActivity : AppCompatActivity() {
         }
     }
 
-    private val videoSavedCallback = object : VideoCapture.OnVideoSavedCallback {
-        override fun onVideoSaved(file: File) {
-            showResultMessage(getString(R.string.video_record_success))
-        }
-
-        override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
-            showResultMessage(getString(R.string.video_record_error, message, videoCaptureError))
-        }
-    }
+    // TODO Wait until they make it public for implementation
+//    private val videoSavedCallback = object : VideoCapture.OnVideoSavedCallback {
+//        override fun onVideoSaved(outputFileResults: VideoCapture.OutputFileResults) {
+//            showResultMessage(getString(R.string.video_record_success))
+//        }
+//
+//        override fun onError(videoCaptureError: Int, message: String, cause: Throwable?) {
+//            showResultMessage(getString(R.string.video_record_error, message, videoCaptureError))
+//        }
+//    }
 
     private fun onPermissionGrant() {
         setupCameraProvider()
@@ -99,17 +100,18 @@ class VideoCaptureActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun startVideoRecording() {
-        buttonToggleCamera.isEnabled = false
-        buttonCaptureImage.isEnabled = false
-        buttonRecordVideo.setText(R.string.stop_record_video)
-    }
-
-    private fun onStopVideoRecording() {
-        buttonToggleCamera.isEnabled = true
-        buttonCaptureImage.isEnabled = true
-        buttonRecordVideo.setText(R.string.start_record_video)
-    }
+    // TODO Wait until they make it public for implementation
+//    private fun startVideoRecording() {
+//        buttonToggleCamera.isEnabled = false
+//        buttonCaptureImage.isEnabled = false
+//        buttonRecordVideo.setText(R.string.stop_record_video)
+//    }
+//
+//    private fun onStopVideoRecording() {
+//        buttonToggleCamera.isEnabled = true
+//        buttonCaptureImage.isEnabled = true
+//        buttonRecordVideo.setText(R.string.start_record_video)
+//    }
 
     private fun showResultMessage(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

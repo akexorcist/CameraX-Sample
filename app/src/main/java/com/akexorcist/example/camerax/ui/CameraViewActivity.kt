@@ -3,19 +3,15 @@ package com.akexorcist.example.camerax.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.VideoCapture
+import androidx.camera.view.video.OnVideoSavedCallback
+import androidx.camera.view.video.OutputFileResults
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
 import com.akexorcist.example.camerax.R
 import com.akexorcist.example.camerax.helper.ShortenMultiplePermissionListener
-import com.akexorcist.example.camerax.helper.ShortenSeekBarChangeListener
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import kotlinx.android.synthetic.main.activity_camera_view.*
@@ -31,7 +27,7 @@ class CameraViewActivity : AppCompatActivity() {
     }
 
     private fun requestRuntimePermission() {
-        Dexter.withActivity(this)
+        Dexter.withContext(this)
             .withPermissions(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
             .withListener(multiplePermissionsListener)
             .check()
@@ -48,6 +44,7 @@ class CameraViewActivity : AppCompatActivity() {
     @SuppressLint("MissingPermission")
     private fun bindCamera() {
         cameraView.bindToLifecycle(this)
+        cameraView.isPinchToZoomEnabled = true
         // Currently, there's no zoom and camera bound listener supported for CameraView
 //         seekBarZoom.max = ((cameraView.maxZoomRatio - cameraView.minZoomRatio) * 10).toInt()
 //         seekBarZoom.progress = (cameraView.zoomRatio * 10).toInt()
@@ -59,9 +56,11 @@ class CameraViewActivity : AppCompatActivity() {
 
     private fun onCaptureImageClick() {
         val file = File(filesDir.absoluteFile, "temp.jpg")
-        cameraView.takePicture(file, ContextCompat.getMainExecutor(this), imageSavedCallback)
+        val outputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()
+        cameraView.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this), imageSavedCallback)
     }
 
+    @SuppressLint("UnsafeExperimentalUsageError")
     private fun onRecordVideoClick() {
         if (cameraView.isRecording) {
             cameraView.stopRecording()
@@ -102,8 +101,9 @@ class CameraViewActivity : AppCompatActivity() {
         }
     }
 
-    private val videoSavedCallback = object : VideoCapture.OnVideoSavedCallback {
-        override fun onVideoSaved(file: File) {
+    @SuppressLint("UnsafeExperimentalUsageError")
+    private val videoSavedCallback = object : OnVideoSavedCallback {
+        override fun onVideoSaved(outputFileResults: OutputFileResults) {
             showResultMessage(getString(R.string.video_record_success))
         }
 

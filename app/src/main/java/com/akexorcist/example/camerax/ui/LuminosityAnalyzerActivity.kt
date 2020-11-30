@@ -60,7 +60,7 @@ class LuminosityAnalyzerActivity : AppCompatActivity() {
 
         camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
         camera?.let { camera ->
-            preview.setSurfaceProvider(previewView.createSurfaceProvider(camera.cameraInfo))
+            preview.setSurfaceProvider(previewView.surfaceProvider)
         }
     }
 

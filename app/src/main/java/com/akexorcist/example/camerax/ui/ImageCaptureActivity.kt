@@ -26,7 +26,7 @@ class ImageCaptureActivity : AppCompatActivity() {
     }
 
     private fun requestRuntimePermission() {
-        Dexter.withActivity(this)
+        Dexter.withContext(this)
             .withPermissions(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
             .withListener(multiplePermissionsListener)
             .check()
@@ -35,7 +35,7 @@ class ImageCaptureActivity : AppCompatActivity() {
 
     private fun setupCameraProvider() {
         ProcessCameraProvider.getInstance(this).also { provider ->
-            provider.addListener(Runnable {
+            provider.addListener({
                 bindPreview(provider.get())
             }, ContextCompat.getMainExecutor(this))
         }
@@ -53,8 +53,8 @@ class ImageCaptureActivity : AppCompatActivity() {
             .build()
 
         camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
-        camera?.let { camera ->
-            preview.setSurfaceProvider(previewView.createSurfaceProvider(camera.cameraInfo))
+        camera?.let {
+            preview.setSurfaceProvider(previewView.surfaceProvider)
         }
     }
 

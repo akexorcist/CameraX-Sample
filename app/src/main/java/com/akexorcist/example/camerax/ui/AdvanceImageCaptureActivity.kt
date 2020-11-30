@@ -21,7 +21,6 @@ import com.karumi.dexter.MultiplePermissionsReport
 import kotlinx.android.synthetic.main.activity_advance_image_capture.*
 import java.io.File
 
-
 class AdvanceImageCaptureActivity : AppCompatActivity() {
     private var lensFacing = CameraSelector.LENS_FACING_BACK
     private var flashMode = ImageCapture.FLASH_MODE_OFF
@@ -54,7 +53,7 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
     }
 
     private fun requestRuntimePermission() {
-        Dexter.withActivity(this)
+        Dexter.withContext(this)
             .withPermissions(Manifest.permission.CAMERA)
             .withListener(multiplePermissionsListener)
             .check()
@@ -62,7 +61,7 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
 
     private fun setupCameraProvider() {
         ProcessCameraProvider.getInstance(this).also { provider ->
-            provider.addListener(Runnable {
+            provider.addListener({
                 cameraProvider = provider.get()
                 bindCamera()
             }, ContextCompat.getMainExecutor(this))
@@ -75,7 +74,7 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
         imageCapture = createCameraCapture()
         camera = cameraProvider?.bindToLifecycle(this, cameraSelector, preview, imageCapture)
         camera?.let { camera ->
-            preview.setSurfaceProvider(previewView.createSurfaceProvider(camera.cameraInfo))
+            preview.setSurfaceProvider(previewView.surfaceProvider)
             setupCameraSetting(camera)
         }
     }
@@ -130,6 +129,7 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
         }
         unbindCamera()
         bindCamera()
+        seekBarZoom.progress = 0
     }
 
     private fun changeFlashMode() {
@@ -164,7 +164,7 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
 
     private fun performFocus(x: Float, y: Float) {
         camera?.let { camera ->
-            val pointFactory: MeteringPointFactory = previewView.createMeteringPointFactory(createCameraSelector())
+            val pointFactory: MeteringPointFactory = previewView.meteringPointFactory
             val afPointWidth = 1.0f / 6.0f
             val aePointWidth = afPointWidth * 1.5f
             val afPoint = pointFactory.createPoint(x, y, afPointWidth)
@@ -178,7 +178,7 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
                     FocusMeteringAction.FLAG_AE
                 ).build()
             )
-            future.addListener(Runnable {}, ContextCompat.getMainExecutor(this))
+            future.addListener({}, ContextCompat.getMainExecutor(this))
         }
     }
 
@@ -253,7 +253,8 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
                 else -> R.string.flash_off
             }
         )
-        val drawable = getDrawable(
+        val drawable = ContextCompat.getDrawable(
+            this,
             when (flashMode) {
                 ImageCapture.FLASH_MODE_ON -> R.drawable.ic_flash_on
                 ImageCapture.FLASH_MODE_AUTO -> R.drawable.ic_flash_auto
@@ -271,7 +272,8 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
                 false -> R.string.torch_off
             }
         )
-        val drawable = getDrawable(
+        val drawable = ContextCompat.getDrawable(
+            this,
             when (isTorchModeEnabled) {
                 true -> R.drawable.ic_torch_on
                 false -> R.drawable.ic_torch_off
