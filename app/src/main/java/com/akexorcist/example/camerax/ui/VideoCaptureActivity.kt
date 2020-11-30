@@ -11,23 +11,23 @@ import androidx.camera.core.VideoCapture
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.akexorcist.example.camerax.R
+import com.akexorcist.example.camerax.databinding.ActivityVideoCaptureBinding
 import com.akexorcist.example.camerax.helper.ShortenMultiplePermissionListener
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
-import kotlinx.android.synthetic.main.activity_camera_view.*
-import kotlinx.android.synthetic.main.activity_image_capture.*
-import kotlinx.android.synthetic.main.activity_image_capture.buttonCaptureImage
-import kotlinx.android.synthetic.main.activity_luminosity_analyzer.previewView
-import java.io.File
 
 class VideoCaptureActivity : AppCompatActivity() {
+    private val binding: ActivityVideoCaptureBinding by lazy {
+        ActivityVideoCaptureBinding.inflate(layoutInflater)
+    }
+
     private var camera: Camera? = null
     private var videoCapture: VideoCapture? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_image_capture)
-        buttonCaptureImage.setOnClickListener { onCaptureImage() }
+        setContentView(binding.root)
+        binding.buttonRecordVideo.setOnClickListener { onCaptureImage() }
         requestRuntimePermission()
     }
 
@@ -60,7 +60,7 @@ class VideoCaptureActivity : AppCompatActivity() {
 
         camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, videoCapture)
         camera?.let {
-            preview.setSurfaceProvider(previewView.surfaceProvider)
+            preview.setSurfaceProvider(binding.previewView.surfaceProvider)
         }
     }
 

@@ -13,23 +13,26 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import com.akexorcist.example.camerax.LuminosityAnalyzer
 import com.akexorcist.example.camerax.R
+import com.akexorcist.example.camerax.databinding.ActivityLuminosityAnalyzerBinding
 import com.akexorcist.example.camerax.helper.ShortenMultiplePermissionListener
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
-import kotlinx.android.synthetic.main.activity_luminosity_analyzer.*
 import java.util.concurrent.Executors
 
 class LuminosityAnalyzerActivity : AppCompatActivity() {
+    private val binding: ActivityLuminosityAnalyzerBinding by lazy {
+        ActivityLuminosityAnalyzerBinding.inflate(layoutInflater)
+    }
     private var camera: Camera? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_luminosity_analyzer)
+        setContentView(binding.root)
         requestRuntimePermission()
     }
 
     private fun requestRuntimePermission() {
-        Dexter.withActivity(this)
+        Dexter.withContext(this)
             .withPermissions(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
             .withListener(multiplePermissionsListener)
             .check()
@@ -37,7 +40,7 @@ class LuminosityAnalyzerActivity : AppCompatActivity() {
 
     private fun setupCameraProvider() {
         ProcessCameraProvider.getInstance(this).also { provider ->
-            provider.addListener(Runnable {
+            provider.addListener({
                 bindPreview(provider.get())
             }, ContextCompat.getMainExecutor(this))
         }
@@ -59,14 +62,14 @@ class LuminosityAnalyzerActivity : AppCompatActivity() {
             .build()
 
         camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis)
-        camera?.let { camera ->
-            preview.setSurfaceProvider(previewView.surfaceProvider)
+        camera?.let {
+            preview.setSurfaceProvider(binding.previewView.surfaceProvider)
         }
     }
 
     private val imageAnalyzer = LuminosityAnalyzer { luma: Double ->
         runOnUiThread {
-            textViewLuma.text = getString(R.string.luma_value, luma)
+            binding.textViewLuma.text = getString(R.string.luma_value, luma)
         }
     }
 

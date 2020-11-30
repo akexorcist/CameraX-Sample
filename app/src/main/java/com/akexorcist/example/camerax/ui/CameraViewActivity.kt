@@ -11,17 +11,20 @@ import androidx.camera.view.video.OnVideoSavedCallback
 import androidx.camera.view.video.OutputFileResults
 import androidx.core.content.ContextCompat
 import com.akexorcist.example.camerax.R
+import com.akexorcist.example.camerax.databinding.ActivityCameraViewBinding
 import com.akexorcist.example.camerax.helper.ShortenMultiplePermissionListener
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
-import kotlinx.android.synthetic.main.activity_camera_view.*
 import java.io.File
 
 class CameraViewActivity : AppCompatActivity() {
+    private val binding: ActivityCameraViewBinding by lazy {
+        ActivityCameraViewBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera_view)
+        setContentView(binding.root)
         setupView()
         requestRuntimePermission()
     }
@@ -34,41 +37,41 @@ class CameraViewActivity : AppCompatActivity() {
     }
 
     private fun setupView() {
-        buttonToggleCamera.setOnClickListener { onToggleCameraClick() }
-        buttonCaptureImage.setOnClickListener { onCaptureImageClick() }
-        buttonRecordVideo.setOnClickListener { onRecordVideoClick() }
+        binding.buttonToggleCamera.setOnClickListener { onToggleCameraClick() }
+        binding.buttonCaptureImage.setOnClickListener { onCaptureImageClick() }
+        binding.buttonRecordVideo.setOnClickListener { onRecordVideoClick() }
         // Currently, there's no zoom and camera bound listener supported for CameraView
 //         seekBarZoom.setOnSeekBarChangeListener(seekBarChangeListener)
     }
 
     @SuppressLint("MissingPermission")
     private fun bindCamera() {
-        cameraView.bindToLifecycle(this)
-        cameraView.isPinchToZoomEnabled = true
+        binding.cameraView.bindToLifecycle(this)
+        binding.cameraView.isPinchToZoomEnabled = true
         // Currently, there's no zoom and camera bound listener supported for CameraView
 //         seekBarZoom.max = ((cameraView.maxZoomRatio - cameraView.minZoomRatio) * 10).toInt()
 //         seekBarZoom.progress = (cameraView.zoomRatio * 10).toInt()
     }
 
     private fun onToggleCameraClick() {
-        cameraView.toggleCamera()
+        binding.cameraView.toggleCamera()
     }
 
     private fun onCaptureImageClick() {
         val file = File(filesDir.absoluteFile, "temp.jpg")
         val outputFileOptions = ImageCapture.OutputFileOptions.Builder(file).build()
-        cameraView.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this), imageSavedCallback)
+        binding.cameraView.takePicture(outputFileOptions, ContextCompat.getMainExecutor(this), imageSavedCallback)
     }
 
     @SuppressLint("UnsafeExperimentalUsageError")
     private fun onRecordVideoClick() {
-        if (cameraView.isRecording) {
-            cameraView.stopRecording()
+        if (binding.cameraView.isRecording) {
+            binding.cameraView.stopRecording()
             onStopVideoRecording()
         } else {
             startVideoRecording()
             val file = File(filesDir.absoluteFile, "temp.mp4")
-            cameraView.startRecording(file, ContextCompat.getMainExecutor(this), videoSavedCallback)
+            binding.cameraView.startRecording(file, ContextCompat.getMainExecutor(this), videoSavedCallback)
         }
     }
 
@@ -120,15 +123,15 @@ class CameraViewActivity : AppCompatActivity() {
 //    }
 
     private fun startVideoRecording() {
-        buttonToggleCamera.isEnabled = false
-        buttonCaptureImage.isEnabled = false
-        buttonRecordVideo.setText(R.string.stop_record_video)
+        binding.buttonToggleCamera.isEnabled = false
+        binding.buttonCaptureImage.isEnabled = false
+        binding.buttonRecordVideo.setText(R.string.stop_record_video)
     }
 
     private fun onStopVideoRecording() {
-        buttonToggleCamera.isEnabled = true
-        buttonCaptureImage.isEnabled = true
-        buttonRecordVideo.setText(R.string.start_record_video)
+        binding.buttonToggleCamera.isEnabled = true
+        binding.buttonCaptureImage.isEnabled = true
+        binding.buttonRecordVideo.setText(R.string.start_record_video)
     }
 
     private fun showResultMessage(message: String) {
