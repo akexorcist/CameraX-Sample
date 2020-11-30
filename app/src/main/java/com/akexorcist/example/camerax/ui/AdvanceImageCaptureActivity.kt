@@ -13,15 +13,18 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.akexorcist.example.camerax.R
+import com.akexorcist.example.camerax.databinding.ActivityAdvanceImageCaptureBinding
 import com.akexorcist.example.camerax.helper.ShortenMultiplePermissionListener
 import com.akexorcist.example.camerax.helper.ShortenSeekBarChangeListener
 import com.akexorcist.example.camerax.helper.applyWindowInserts
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
-import kotlinx.android.synthetic.main.activity_advance_image_capture.*
 import java.io.File
 
 class AdvanceImageCaptureActivity : AppCompatActivity() {
+    private val binding: ActivityAdvanceImageCaptureBinding by lazy {
+        ActivityAdvanceImageCaptureBinding.inflate(layoutInflater)
+    }
     private var lensFacing = CameraSelector.LENS_FACING_BACK
     private var flashMode = ImageCapture.FLASH_MODE_OFF
     private var isTorchModeEnabled = false
@@ -33,15 +36,15 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_advance_image_capture)
+        setContentView(binding.root)
 
-        viewSafeArea.applyWindowInserts()
-        buttonCaptureImage.setOnClickListener { captureImage() }
-        buttonToggleCamera.setOnClickListener { switchCamera() }
-        buttonToggleFlash.setOnClickListener { changeFlashMode() }
-        buttonToggleTorch.setOnClickListener { changeTorchMode() }
-        previewView.setOnTouchListener(onPreviewTouchListener)
-        seekBarZoom.setOnSeekBarChangeListener(onSeekBarChangeListener)
+        binding.viewSafeArea.applyWindowInserts()
+        binding.buttonCaptureImage.setOnClickListener { captureImage() }
+        binding.buttonToggleCamera.setOnClickListener { switchCamera() }
+        binding.buttonToggleFlash.setOnClickListener { changeFlashMode() }
+        binding.buttonToggleTorch.setOnClickListener { changeTorchMode() }
+        binding.previewView.setOnTouchListener(onPreviewTouchListener)
+        binding.seekBarZoom.setOnSeekBarChangeListener(onSeekBarChangeListener)
 
         requestRuntimePermission()
         orientationEventListener.enable()
@@ -74,7 +77,7 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
         imageCapture = createCameraCapture()
         camera = cameraProvider?.bindToLifecycle(this, cameraSelector, preview, imageCapture)
         camera?.let { camera ->
-            preview.setSurfaceProvider(previewView.surfaceProvider)
+            preview.setSurfaceProvider(binding.previewView.surfaceProvider)
             setupCameraSetting(camera)
         }
     }
@@ -87,12 +90,12 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
     }
 
     private fun updateFlashAvailable(isEnabled: Boolean) {
-        buttonToggleFlash.isEnabled = isEnabled
+        binding.buttonToggleFlash.isEnabled = isEnabled
         updateFlashModeButton()
     }
 
     private fun updateTorchAvailable(isEnabled: Boolean) {
-        buttonToggleTorch.isEnabled = isEnabled
+        binding.buttonToggleTorch.isEnabled = isEnabled
         updateTorchModeButton()
     }
 
@@ -129,7 +132,7 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
         }
         unbindCamera()
         bindCamera()
-        seekBarZoom.progress = 0
+        binding.seekBarZoom.progress = 0
     }
 
     private fun changeFlashMode() {
@@ -164,7 +167,7 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
 
     private fun performFocus(x: Float, y: Float) {
         camera?.let { camera ->
-            val pointFactory: MeteringPointFactory = previewView.meteringPointFactory
+            val pointFactory: MeteringPointFactory = binding.previewView.meteringPointFactory
             val afPointWidth = 1.0f / 6.0f
             val aePointWidth = afPointWidth * 1.5f
             val afPoint = pointFactory.createPoint(x, y, afPointWidth)
@@ -223,7 +226,7 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
     }
 
     private val zoomStateObserver = Observer { state: ZoomState ->
-        textViewZoomLevel.text = getString(R.string.zoom_ratio, state.zoomRatio)
+        binding.textViewZoomLevel.text = getString(R.string.zoom_ratio, state.zoomRatio)
     }
 
     private val imageSavedCallback = object : ImageCapture.OnImageSavedCallback {
@@ -261,8 +264,8 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
                 else -> R.drawable.ic_flash_off
             }
         )
-        buttonToggleFlash.text = mode
-        buttonToggleFlash.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
+        binding.buttonToggleFlash.text = mode
+        binding.buttonToggleFlash.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
     }
 
     private fun updateTorchModeButton() {
@@ -279,8 +282,8 @@ class AdvanceImageCaptureActivity : AppCompatActivity() {
                 false -> R.drawable.ic_torch_off
             }
         )
-        buttonToggleTorch.text = mode
-        buttonToggleTorch.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
+        binding.buttonToggleTorch.text = mode
+        binding.buttonToggleTorch.setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null)
     }
 
     private fun showResultMessage(message: String) {
