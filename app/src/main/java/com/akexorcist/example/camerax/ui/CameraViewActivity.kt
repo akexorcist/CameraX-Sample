@@ -1,6 +1,7 @@
 package com.akexorcist.example.camerax.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.widget.SeekBar
@@ -10,6 +11,8 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.VideoCapture
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import com.akexorcist.example.camerax.R
 import com.akexorcist.example.camerax.helper.ShortenMultiplePermissionListener
 import com.akexorcist.example.camerax.helper.ShortenSeekBarChangeListener
@@ -23,6 +26,7 @@ class CameraViewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera_view)
+        setupView()
         requestRuntimePermission()
     }
 
@@ -37,15 +41,16 @@ class CameraViewActivity : AppCompatActivity() {
         buttonToggleCamera.setOnClickListener { onToggleCameraClick() }
         buttonCaptureImage.setOnClickListener { onCaptureImageClick() }
         buttonRecordVideo.setOnClickListener { onRecordVideoClick() }
-        seekBarZoom.setOnSeekBarChangeListener(seekBarChangeListener)
-        seekBarZoom.max = ((cameraView.maxZoomRatio - cameraView.minZoomRatio) * 10).toInt()
-        seekBarZoom.progress = (cameraView.zoomRatio * 10).toInt()
+        // Currently, there's no zoom and camera bound listener supported for CameraView
+//         seekBarZoom.setOnSeekBarChangeListener(seekBarChangeListener)
+    }
 
+    @SuppressLint("MissingPermission")
+    private fun bindCamera() {
         cameraView.bindToLifecycle(this)
-        Log.e("Check", "Max Zoom : ${cameraView.maxZoomRatio}")
-        Log.e("Check", "Min Zoom : ${cameraView.minZoomRatio}")
-        Log.e("Check", "Max : ${seekBarZoom.max}")
-        Log.e("Check", "Progress : ${seekBarZoom.progress}")
+        // Currently, there's no zoom and camera bound listener supported for CameraView
+//         seekBarZoom.max = ((cameraView.maxZoomRatio - cameraView.minZoomRatio) * 10).toInt()
+//         seekBarZoom.progress = (cameraView.zoomRatio * 10).toInt()
     }
 
     private fun onToggleCameraClick() {
@@ -69,7 +74,7 @@ class CameraViewActivity : AppCompatActivity() {
     }
 
     private fun onPermissionGrant() {
-        setupView()
+        bindCamera()
     }
 
     private fun onPermissionDenied() {
@@ -107,11 +112,12 @@ class CameraViewActivity : AppCompatActivity() {
         }
     }
 
-    private val seekBarChangeListener = object : ShortenSeekBarChangeListener() {
-        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            cameraView.zoomRatio = progress / 10f
-        }
-    }
+    // Currently, there's no zoom and camera bound listener supported for CameraView
+//    private val seekBarChangeListener = object : ShortenSeekBarChangeListener() {
+//        override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+//            cameraView.zoomRatio = progress / 10f
+//        }
+//    }
 
     private fun startVideoRecording() {
         buttonToggleCamera.isEnabled = false
